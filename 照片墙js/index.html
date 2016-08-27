@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<title>照片墙</title>
+	<style type="text/css">
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	html,body{
+		width: 100%;
+		height: 100%;
+	}
+	#container{
+		width: 100%;
+		height: 100%;
+		background: url(img/bg.jpg);
+		position: relative;
+	}
+	#container img{
+		width: 115px;
+		height: 115px;
+		border: solid 5px #fff;
+		position: absolute;
+	}
+	</style>
+</head>
+<body>
+	<div id="container"> 
+	</div>
+	<script src="1.js"></script>
+	<script type="text/javascript">
+		var oContainer=document.getElementById('container');
+		var row=4,
+		col=6,
+		count=0,
+		aImg=[],
+		index=0,
+		img_width=125,
+		zIndex=0,
+		img_height=125;
+		for(i=0;i<row*col;i++){
+			var oImg=new Image();
+			oImg.onload=function(){
+				count++;
+				if(count==row*col){
+					loadSucess();
+				}
+			};
+			oImg.src="img/"+(i+1)+".jpg";
+			aImg.push(oImg);
+		}
+		function loadSucess(){
+			var iCol=(oContainer.offsetWidth-col*img_width)/(col+1);
+			var iRow=(oContainer.offsetHeight-row*img_height)/(row+1);
+			for(i=0;i<row;i++){
+				for(j=0;j<col;j++){
+				aImg[index].style.left=iCol+ j *(img_width+iCol)+'px';
+				aImg[index].style.top=iRow+ i * (img_height+iRow)+'px';
+				oContainer.appendChild(aImg[index]);
+				index++;
+				}
+			}
+		}
+		oContainer.onmouseover=function(e){
+			var target=e.target||window.event.src;
+			if(target!=oContainer){
+				target.style.zIndex=++zIndex;
+				animate(target,{
+					width:155,
+					height:155,
+					marginTop:-15,
+					marginLeft:-15
+				});
+			}
+		};
+		oContainer.onmouseout=function(e){
+			var target=e.target||window.event.src;
+			if (target!=oContainer) {
+				
+				animate(target,{
+					width:img_width,
+					height:img_height,
+					marginLeft:0,
+					marginTop:0
+				});
+			}
+		};
+	</script>
+</body>
+</html>
